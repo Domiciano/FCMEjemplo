@@ -1,10 +1,9 @@
-package edu.co.icesi.firestoreejemplo;
+package edu.co.icesi.firestoreejemplo.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,8 +12,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.UUID;
+
+import edu.co.icesi.firestoreejemplo.R;
+import edu.co.icesi.firestoreejemplo.model.User;
+import edu.co.icesi.firestoreejemplo.util.NotificationUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         loginBtn.setOnClickListener(this::login);
 
+
+        NotificationUtils.showNotification("AppMoviles","Bienvenido al chat");
+        FirebaseMessaging.getInstance().subscribeToTopic("promo");
+
     }
 
     private void login(View view) {
@@ -52,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, HomeActivity.class);
                         intent.putExtra("user", user);
                         startActivity(intent);
+                        finish();
                     }
 
 
@@ -67,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(this, HomeActivity.class);
                             intent.putExtra("user",existingUser);
                             startActivity(intent);
+                            finish();
                         }else{
                             Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
                         }

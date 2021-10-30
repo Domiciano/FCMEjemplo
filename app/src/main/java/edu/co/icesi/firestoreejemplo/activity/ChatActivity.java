@@ -1,4 +1,4 @@
-package edu.co.icesi.firestoreejemplo;
+package edu.co.icesi.firestoreejemplo.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,17 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.Date;
 import java.util.UUID;
+
+import edu.co.icesi.firestoreejemplo.R;
+import edu.co.icesi.firestoreejemplo.model.Chat;
+import edu.co.icesi.firestoreejemplo.model.Message;
+import edu.co.icesi.firestoreejemplo.model.User;
+import edu.co.icesi.firestoreejemplo.services.FMCMessage;
+import edu.co.icesi.firestoreejemplo.util.HTTPSWebUtilDomi;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -59,6 +67,12 @@ public class ChatActivity extends AppCompatActivity {
                     Message m = new Message(UUID.randomUUID().toString(), messageET.getText().toString(), user.getId(), new Date().getTime());
                     FirebaseFirestore.getInstance().collection("chats")
                             .document(chat.getId()).collection("messages").document(m.getId()).set(m);
+                    new Thread(
+                            ()->{
+                                FMCMessage<Message> msg = new FMCMessage<>("/topics/"+contact.getId(), m);
+                                new HTTPSWebUtilDomi().POSTtoFCM( new Gson().toJson(msg) );
+                            }
+                    ).start();
                 }
         );
 
