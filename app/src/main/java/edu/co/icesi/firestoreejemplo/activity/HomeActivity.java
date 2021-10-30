@@ -44,7 +44,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-
         FirebaseMessaging.getInstance().subscribeToTopic(user.getId());
         Log.e(">>>", "ID: "+user.getId());
 
@@ -54,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         signoutBtn = findViewById(R.id.signoutBtn);
 
         signoutBtn.setOnClickListener(v->{
+            deleteUser();
             FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getId());
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
@@ -87,19 +87,13 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void saveCurrentUser() {
+    private void deleteUser() {
         SharedPreferences pref = getSharedPreferences("app",MODE_PRIVATE);
         pref.edit()
-                .putString("user", new Gson().toJson(user))
+                .remove("user")
                 .apply();
-
     }
 
-    private void loadSavedUser(){
-        SharedPreferences pref = getSharedPreferences("app",MODE_PRIVATE);
-        String json = pref.getString("userid", "");
-        user = new Gson().fromJson(json,User.class);
-    }
 
 
     @Override

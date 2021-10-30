@@ -11,8 +11,10 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import edu.co.icesi.firestoreejemplo.R;
+import edu.co.icesi.firestoreejemplo.activity.HomeActivity;
 import edu.co.icesi.firestoreejemplo.activity.MainActivity;
 import edu.co.icesi.firestoreejemplo.app.AppMoviles;
+import edu.co.icesi.firestoreejemplo.model.User;
 
 public class NotificationUtils {
 
@@ -22,15 +24,14 @@ public class NotificationUtils {
     private static int notificationID;
 
 
-    public static void showNotification(String title, String message){
+    public static void showNotification(String title, String message, PendingIntent pendingIntent){
         NotificationManager ntManager = (NotificationManager) AppMoviles.getGlobalContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             ntManager.createNotificationChannel(channel);
         }
 
-        Intent intent = new Intent(AppMoviles.getGlobalContext(), MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(AppMoviles.getGlobalContext(), notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppMoviles.getGlobalContext(), CHANNEL_ID)
                 .setDefaults(Notification.DEFAULT_ALL)

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(this::login);
 
 
-        NotificationUtils.showNotification("AppMoviles","Bienvenido al chat");
+        //NotificationUtils.showNotification("AppMoviles","Bienvenido al chat");
         FirebaseMessaging.getInstance().subscribeToTopic("promo");
 
     }
