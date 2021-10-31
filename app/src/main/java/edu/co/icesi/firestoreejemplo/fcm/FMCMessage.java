@@ -1,4 +1,4 @@
-package edu.co.icesi.firestoreejemplo.services;
+package edu.co.icesi.firestoreejemplo.fcm;
 
 public class FMCMessage<T> {
 
